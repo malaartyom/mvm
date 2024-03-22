@@ -78,13 +78,14 @@ void compare() {
         printf("1 + e/2 less then 1 + e\n");
     }
     if (1 + e + half_e > 1 + e){
+        printf(" %f, %f, %f \n", 1 + e + half_e, 1 + e, half_e);
         printf("1 + e + e/2 is greater then 1 + e\n");
     }
 }
 
 
 int find_min(){
-    float e = 1.0;
+    double e = 1.0;
     int counter = 0;
 
     while (e != 0) {
@@ -97,6 +98,9 @@ int find_min(){
 
 
 int main() {
+    printf("%d ", find_min());
+    printf("%d  \n", find_double());
+    printf("%d \n", find_power_double());
     compare();
     return 0;
 }

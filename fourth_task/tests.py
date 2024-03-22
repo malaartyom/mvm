@@ -1,0 +1,24 @@
+from scipy import integrate
+from Simpson_integrate import integrate_Simpson
+import math
+import sys
+from termcolor import colored, cprint
+
+funcs = [(math.sin, 0, math.pi / 4)]
+def run_test(i, N):
+    func, a, b = funcs[i]
+    expected = integrate.quad(func, a, b)[0]
+    actual = integrate_Simpson(func, a, b, N)
+    h = (b - a) / N
+    assert(abs(expected - actual) < h ** 4)
+    print(f"TEST {i} with N = {N} HAVE PASSED", )
+
+def test_0():
+    run_test(0, 10)
+
+def test_1():
+    run_test(0, 100)
+
+if __name__ == "__main__":
+    test_0()
+    test_1()
