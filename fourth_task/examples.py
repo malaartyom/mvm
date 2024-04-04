@@ -4,6 +4,10 @@ from scipy import integrate
 
 
 def func1(x):
+    if x == 0:
+        return pi
+    elif x == 1:
+        return 5 * pi
     return (sin(pi * x ** 5)) / ((x ** 5) * (1 - x))
 
 
@@ -15,7 +19,7 @@ def test_first():
     print()
     for n in range(1, 17):
         print(f"n = {n} -----------------------------")
-        actual = integrate_simpson(func1, 10 ** -n, 1 - 10 ** -n, 1000)
+        actual = integrate_simpson(func1, 0, 1, 1000)
         expected = integrate.quad(func1, 0, 1)[0]
         print(f"actual = {actual}, expected = {expected}")
         print("delta =", abs(actual - expected))

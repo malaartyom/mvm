@@ -1,5 +1,5 @@
-from typing import Tuple
 import math
+
 
 def get_roots(a: float, N: int, h: float):
     roots = []
@@ -9,11 +9,12 @@ def get_roots(a: float, N: int, h: float):
     return roots
 
 
-def integrate_simpson(func, a, b, N: int):
-    func1 = func
+def integrate_simpson(function, a, b, N: int):
+    func1 = function
     if b == math.inf:
         def f(t):
-            return func(t / (1 - t)) / ((1 - t) ** 2)
+            return function(t / (1 - t)) / ((1 - t) ** 2)
+
         func1 = f
         b = 1 - 10 ** -10
         a = a / (a - 1)
