@@ -4,7 +4,7 @@ def e():
     while (1 + e != 1):
         counter += 1
         e /= 2
-    
+
     return (e, counter)
 
 

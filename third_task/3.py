@@ -83,3 +83,6 @@ def configurate_graph(n):
 for i in range(2, 11):
     configurate_graph(i)
     plt.show()
+
+# configurate_graph(20)
+# plt.show()

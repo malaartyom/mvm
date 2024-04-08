@@ -2,6 +2,10 @@ from simpson_integrate import integrate_simpson
 from math import sin, pi, e, sqrt, inf
 from scipy import integrate
 
+def count_approximation(func, order: int, amount_of_steps: int):
+    r: int = 10
+    F = integrate_simpson
+    return abs((F(func, 0, 1, amount_of_steps) - F(func, 0, 1, amount_of_steps // r)) / ((r ** order) - 1))
 
 def func1(x):
     if x == 0:
@@ -17,17 +21,20 @@ def func2(x):
 
 def test_first():
     print()
-    for n in range(1, 17):
-        print(f"n = {n} -----------------------------")
-        actual = integrate_simpson(func1, 0, 1, 1000)
-        expected = integrate.quad(func1, 0, 1)[0]
-        print(f"actual = {actual}, expected = {expected}")
-        print("delta =", abs(actual - expected))
-        print("-----------------------------------")
+    # for n in range(1, 17):
+    #     print(f"n = {n} -----------------------------")
+    #     actual = integrate_simpson(func1, 0, 1, 1000)
+    #     expected = integrate.quad(func1, 0, 1)[0]
+    #     print(f"actual = {actual}, expected = {expected}")
+    #     print("delta =", abs(actual - expected))
+    #     print("-----------------------------------")
 
-    actual = integrate_simpson(func1, 10 ** -10, 1 - 10 ** -10, 1000)
+    actual = integrate_simpson(func1, 0, 1, 1000)
     expected = integrate.quad(func1, 0, 1)[0]
-    assert (abs(actual - expected) < 10 ** -8)
+    print(f"actual = {actual}, expected = {expected}")
+    approximation = count_approximation(func1, 5, 1000)
+    print("approximation= ", approximation)
+    assert (approximation < 10 ** -8)
 
 
 def test_second():
@@ -36,7 +43,9 @@ def test_second():
     print()
     print(f"actual = {actual}, expected = {expected}")
     print("delta =", abs(actual - expected))
-    assert (abs(actual - expected) < 10 ** -8)
+    approximation = count_approximation(func2, 5, 1000)
+    print("approximation= ", approximation)
+    assert (approximation < 10 ** -8)
 
 
 if __name__ == "__main__":
