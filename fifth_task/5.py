@@ -1,5 +1,10 @@
 import numpy as np
 import math
+import matplotlib.pyplot as plt
+
+
+def answer(x, df_left, f_right):
+    return -np.cos(x) + (df_left + 1) * x + f_right - ((df_left + 1) * np.pi) / 2
 
 
 def get_right_part(func, n: int, l: float, r: float):
@@ -8,16 +13,27 @@ def get_right_part(func, n: int, l: float, r: float):
 
 
 def get_roots(n: int, l: float, r: float):
-    h = (r - l) / n
-    return [l + i * h for i in range(1, n)]
+    h = (r - l) / (n)
+    return [l + i * h for i in range(n + 1)]
 
 
-def create_matrix(func, n: int, l: float, r: float, f_right=0, df_left=0):
+def border_cond_0(f_right, df_left, h):
+    left_border_cond = [-1 / h, 1 / h, df_left]
+    right_border_cond = [0, 1, f_right]
+    return left_border_cond, right_border_cond
+
+
+def border_cond_1(f_left, f_right):
+    left_border_cond = [1, 0, f_left]
+    right_border_cond = [0, 1, f_right]
+    return left_border_cond, right_border_cond
+
+
+def create_matrix(func, n: int, l: float, r: float, f_right=0, df_left=0, f_left=0, df_right=0):
     if n < 3:
         raise IndexError("Matrix can't have shape less then 3")
     h = (r - l) / n
-    left_border_cond = [-1 / h, 1 / h, df_left]
-    right_border_cond = [0, 1, f_right]
+    left_border_cond, right_border_cond = border_cond_0(f_right, df_left, h)
 
     a, b, c, right_part = [0], [], [], []
 
@@ -54,11 +70,26 @@ def tridiagonal_matrix_algorithm(a, b, c, right_part):
 
 
 if __name__ == "__main__":
-    a, b, c, right_part = create_matrix(math.cos, 4, -np.pi / 2, np.pi / 2, 3, 2)
+    f_right = 3
+    df_left = 4
+    a, b, c, right_part = create_matrix(math.cos, 4, -np.pi / 2, np.pi / 2, f_right=f_right, df_left=df_left)
     print("a =", a)
     print("b = ", b)
     print("c = ", c)
     print("right part = ", right_part)
     result = tridiagonal_matrix_algorithm(a, b, c, right_part)
-
     print(result)
+
+    x = get_roots(4, -np.pi / 2, np.pi / 2)
+    answ = [answer(i, df_left, f_right) for i in x]
+    diff = [result[r] - answ[r] for r in range(len(result))]
+    print(x)
+    print(result)
+    print(answ)
+    print(diff)
+
+    plt.plot(x, answ, label = "Точное решение")
+    plt.plot(x, result, label="Численное решение решение")
+    plt.plot(x, diff, label = "Разность")
+    plt.legend()
+    plt.show()
