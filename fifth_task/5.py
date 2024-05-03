@@ -70,8 +70,8 @@ def tridiagonal_matrix_algorithm(a, b, c, right_part):
 
 
 if __name__ == "__main__":
-    f_right = 3
-    df_left = 4
+    f_right = 100
+    df_left = -100
     a, b, c, right_part = create_matrix(math.cos, 4, -np.pi / 2, np.pi / 2, f_right=f_right, df_left=df_left)
     print("a =", a)
     print("b = ", b)
