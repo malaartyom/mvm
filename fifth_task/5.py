@@ -6,6 +6,9 @@ import matplotlib.pyplot as plt
 def answer(x, df_left, f_right):
     return -np.cos(x) + (df_left + 1) * x + f_right - ((df_left + 1) * np.pi) / 2
 
+def answer0(x):
+    return -np.cos(x)
+
 
 def get_right_part(func, n: int, l: float, r: float):
     h = (r - l) / n
@@ -33,7 +36,7 @@ def create_matrix(func, n: int, l: float, r: float, f_right=0, df_left=0, f_left
     if n < 3:
         raise IndexError("Matrix can't have shape less then 3")
     h = (r - l) / n
-    left_border_cond, right_border_cond = border_cond_0(f_right, df_left, h)
+    left_border_cond, right_border_cond = border_cond_1(f_right, f_left)
 
     a, b, c, right_part = [0], [], [], []
 
@@ -70,9 +73,9 @@ def tridiagonal_matrix_algorithm(a, b, c, right_part):
 
 
 if __name__ == "__main__":
-    f_right = 100
-    df_left = -100
-    a, b, c, right_part = create_matrix(math.cos, 4, -np.pi / 2, np.pi / 2, f_right=f_right, df_left=df_left)
+    f_right = 0
+    f_left = 0
+    a, b, c, right_part = create_matrix(math.cos, 1000, -np.pi / 2, np.pi / 2, f_right=f_right, f_left=f_left)
     print("a =", a)
     print("b = ", b)
     print("c = ", c)
@@ -80,16 +83,16 @@ if __name__ == "__main__":
     result = tridiagonal_matrix_algorithm(a, b, c, right_part)
     print(result)
 
-    x = get_roots(4, -np.pi / 2, np.pi / 2)
-    answ = [answer(i, df_left, f_right) for i in x]
+    x = get_roots(1000, -np.pi / 2, np.pi / 2)
+    answ = [answer0(i) for i in x]
     diff = [result[r] - answ[r] for r in range(len(result))]
     print(x)
     print(result)
     print(answ)
     print(diff)
 
-    plt.plot(x, answ, label = "Точное решение")
-    plt.plot(x, result, label="Численное решение решение")
+    # plt.plot(x, answ, label = "Точное решение")
+    # plt.plot(x, result, label="Численное решение решение")
     plt.plot(x, diff, label = "Разность")
     plt.legend()
     plt.show()
