@@ -25,7 +25,7 @@ def lorenz(r, sigma=10, b=8 / 3):
     lf1 = lambda t, x, y, z: sigma * (y - x)
     lf2 = lambda t, x, y, z: x * (r - z) - y
     lf3 = lambda t, x, y, z: x * y - b * z
-    return  lf1, lf2, lf3
+    return lf1, lf2, lf3
 
 
 def get_grid(n: int, borders: Tuple[int, int]) -> List[int]:
@@ -100,11 +100,11 @@ def rk_4_lorenz(func1, func2, func3, x_0, y_0, z_0, borders: Tuple[int, int], n:
 
 def show_rk_4() -> None:
     y_0 = 1
-    n = 1000
-    borders = (-20, 20)
+    n = 10000
+    borders = (-10, 10)
     t = get_grid(n, borders)
-    # show_simple_rk_4(borders, n, y_0, t)
-    # show_predator_victim(borders, n, t)
+    show_simple_rk_4(n, y_0)
+    show_predator_victim(borders, n, t)
     show_lorenz(borders, n)
 
     plt.show()
@@ -113,11 +113,11 @@ def show_rk_4() -> None:
 def show_lorenz(borders, n):
     fig = plt.figure("3")
     ax = fig.add_subplot(111, projection='3d')
-    x0, y0, z0 = 1, 1, 1.05
-    r = 16
+    x0, y0, z0 = 1, 1, 1
+    r = 100
     lf1, lf2, lf3 = lorenz(r)
     lor = rk_4_lorenz(lf1, lf2, lf3, x0, y0, z0, borders, n)
-    ax.scatter(lor[0], lor[1], lor[2], s=2)
+    ax.plot(lor[0], lor[1], lor[2])
     # for r in np.linspace(10, 24, 3):
     #     lf1, lf2, lf3 = lorenz(r)
     #     lor = rk_4_lorenz(lf1, lf2, lf3, x0, y0, z0, borders, n)
@@ -129,16 +129,18 @@ def show_predator_victim(borders, n, t):
     # y0 = 1
     # rk_2d = rk_4_2d(f1, f2, x0, y0, borders, n)
     fig = plt.figure("2")
-    ax = fig.add_subplot(111, projection='3d')
+    # ax = fig.add_subplot(111, projection='3d')
     for x in np.linspace(0.2, 2, 3):
         for y in np.linspace(0.2, 2, 3):
             rk_2d = rk_4_2d(f1, f2, x, y, borders, n)
             if not (any(np.isnan(i) or np.isinf(i) for i in rk_2d[0])) and not (
                     any(np.isnan(i) or np.isinf(i) for i in rk_2d[1])):
-                ax.plot(t, rk_2d[0], rk_2d[1])
+                plt.plot(rk_2d[0], rk_2d[1])
 
 
-def show_simple_rk_4(borders, n, y_0, t):
+def show_simple_rk_4(n, y_0):
+    borders = (0, 2)
+    t = get_grid(n, borders)
     rk = rk_4(f, y_0, borders, n)
     exp = [np.exp(i) for i in t]
     diff = [rk[i] - exp[i] for i in range(len(t))]
