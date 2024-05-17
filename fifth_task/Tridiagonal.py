@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 def answer(x, df_left, f_right):
     return -np.cos(x) + (df_left + 1) * x + f_right - ((df_left + 1) * np.pi) / 2
 
+
 def answer0(x):
     return -np.cos(x)
 
@@ -64,10 +65,12 @@ def tridiagonal_matrix_algorithm(a, b, c, right_part):
         right_part[i + 1] = right_part[i + 1] - (right_part_i / b_i) * a[i + 1]
         b[i + 1] = b[i + 1] - (a[i + 1] / b_i) * c_i
 
-    b[len(a) - 1] = right_part[len(a) - 1] / b[len(a) - 1]
+    b[len(b) - 1] = right_part[len(right_part) - 1] / b[len(b) - 1]
 
-    for i in range(len(a) - 2, -1, -1):
+    for i in range(len(b) - 2, -1, -1):
         b[i] = (right_part[i] - c[i] * b[i + 1]) / b[i]
+
+    # print(f"b = {b}")
 
     return b
 
@@ -93,6 +96,6 @@ if __name__ == "__main__":
 
     # plt.plot(x, answ, label = "Точное решение")
     # plt.plot(x, result, label="Численное решение решение")
-    plt.plot(x, diff, label = "Разность")
+    plt.plot(x, diff, label="Разность")
     plt.legend()
     plt.show()

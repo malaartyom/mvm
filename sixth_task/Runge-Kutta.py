@@ -101,7 +101,7 @@ def rk_4_lorenz(func1, func2, func3, x_0, y_0, z_0, borders: Tuple[int, int], n:
 def show_rk_4() -> None:
     y_0 = 1
     n = 10000
-    borders = (-10, 10)
+    borders = (0, 10)
     t = get_grid(n, borders)
     show_simple_rk_4(n, y_0)
     show_predator_victim(borders, n, t)
@@ -130,8 +130,8 @@ def show_predator_victim(borders, n, t):
     # rk_2d = rk_4_2d(f1, f2, x0, y0, borders, n)
     fig = plt.figure("2")
     # ax = fig.add_subplot(111, projection='3d')
-    for x in np.linspace(0.2, 2, 3):
-        for y in np.linspace(0.2, 2, 3):
+    for x in np.linspace(0.2, 2, 2):
+        for y in np.linspace(0.2, 2, 2):
             rk_2d = rk_4_2d(f1, f2, x, y, borders, n)
             if not (any(np.isnan(i) or np.isinf(i) for i in rk_2d[0])) and not (
                     any(np.isnan(i) or np.isinf(i) for i in rk_2d[1])):

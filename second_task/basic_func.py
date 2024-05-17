@@ -1,6 +1,6 @@
 import math
 
-epsilon = 10e-5
+epsilon = 10e-8
 
 
 def example_1(x):
@@ -154,9 +154,9 @@ for root, i in enumerate(a):
 print()
 
 b = close_root(example_1, roots_num)
-c = close_root_1(example_1, roots_num)
+
 print(b)
-print(c)
+
 
 for root, i in enumerate(b):
     x, iterations = dichotomy_method(example_1, i)
