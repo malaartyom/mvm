@@ -65,7 +65,7 @@ def tridiagonal_matrix_algorithm(a, b, c, right_part):
         right_part[i + 1] = right_part[i + 1] - (right_part_i / b_i) * a[i + 1]
         b[i + 1] = b[i + 1] - (a[i + 1] / b_i) * c_i
 
-    b[len(b) - 1] = right_part[len(right_part) - 1] / b[len(b) - 1]
+    b[-1] = right_part[-1] / b[- 1]
 
     for i in range(len(b) - 2, -1, -1):
         b[i] = (right_part[i] - c[i] * b[i + 1]) / b[i]
