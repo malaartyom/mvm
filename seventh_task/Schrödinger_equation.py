@@ -98,12 +98,18 @@ H0 = create_hamilton_matrix(U, n, borders0)
 # print(H)
 solution = inverse_power_method(n, H)
 solution0 = inverse_power_method(n, H0)
+
 print("Собсвтенное значение, полученное методом прогонки", solution[1])
 print("Собственное значение, получание с помощью np.solve()", solution[2][-1])
 
 print("Волновая функция:", solution[0])
 print("Энергия", solution[1])
 print("Минимальное собственное значения H (с помощью numpy):", min(np.linalg.eigvals(H)))
+
+print("Энергия на промежутке (-1000, 1000)", solution0[1])
+print("Настоящее значение энергии", min(np.linalg.eigvals(H0))) # а тут всё сходится  :)
+
+
 plt.style.use('seaborn-v0_8-whitegrid')
 plt.subplot(1, 2, 1)
 plt.plot(grid, solution[0])
