@@ -5,36 +5,6 @@ from fifth_task import Tridiagonal
 import matplotlib.pyplot as plt
 import numpy as np
 
-import numpy as np
-
-def tridiagonal_matrix_algorithm(a, b, c, d):
-  """Решает систему уравнений с трехдиагональной матрицей с помощью метода прогонки.
-
-  Args:
-    a: Нижняя диагональ матрицы.
-    b: Главная диагональ матрицы.
-    c: Верхняя диагональ матрицы.
-    d: Правая часть системы уравнений.
-
-  Returns:
-    Список значений x, удовлетворяющих системе уравнений.
-  """
-
-  n = len(a)
-  x = np.zeros(n)
-
-  # Прямой ход
-  for i in range(1, n):
-    m = a[i] / b[i - 1]
-    b[i] = b[i] - m * c[i - 1]
-    d[i] = d[i] - m * d[i - 1]
-
-  # Обратный ход
-  x[n - 1] = d[n - 1] / b[n - 1]
-  for i in range(n - 2, -1, -1):
-    x[i] = (d[i] - c[i] * x[i + 1]) / b[i]
-
-  return x
 
 
 def get_grid(n: int, borders: Tuple[int, int]) -> List[int]:
