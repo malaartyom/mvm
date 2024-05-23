@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-
 def get_grid(n: int, borders: Tuple[int, int]) -> List[int]:
     l, r = borders
     h = (r - l) / n
@@ -43,6 +42,9 @@ def solve(A: np.matrix, x):
     below_diagonals = []
     for i in range(1, A.shape[1]):
         below_diagonals.append(A[i, i - 1])
+    below_diagonals.append(0)
+    above_diagonals.append(0)
+    # print(list(map(len, [below_diagonals, above_diagonals, diagonals])))
 
     # print(diagonals, above_diagonals, below_diagonals)
     # print(x)
@@ -61,32 +63,28 @@ def inverse_power_method(n: int, A: np.matrix):
     y_k, eigen_value = None, None
     for i in tqdm(range(n)):
         # y = np.linalg.inv(A) @ x[i]
-        y = list(np.linalg.solve(A, true_x[i])) # это я ситаю, чтобы сравнивать с y_k. Если посмотреть глазами, то они не сильно отличаются
-        # print(f"x{i} = {x[i]}")
+        y = list(np.linalg.solve(A, true_x[
+            i]))  # это я ситаю, чтобы сравнивать с y_k. Если посмотреть глазами, то они не сильно отличаются
         y_k = solve(A, x[i])
-        # print(np.linalg.norm(y_k) ** 2)
-        # print(f"y_{i} = {y_k}")
         eigen_value = (x[i] @ y_k) / (np.linalg.norm(y_k) ** 2)
-        e.append((true_x[i] @ y) / (np.linalg.norm(y) ** 2)) # правильные с.з хранятся тут
+        e.append((true_x[i] @ y) / (np.linalg.norm(y) ** 2))  # правильные с.з хранятся тут
 
         x_i = y_k / np.linalg.norm(y_k)
         x_i[0] = 0
         x_i[-1] = 0
 
-        true_x_i = y / np.linalg.norm(y) # "настоящие" значения x[i] хранятся тут и вот они уже значительно отличаются от x_i
+        true_x_i = y / np.linalg.norm(
+            y)  # "настоящие" значения x[i] хранятся тут и вот они уже значительно отличаются от x_i
         true_x_i[0] = 0
         true_x_i[-1] = 0
 
         x.append(x_i)
         true_x.append(true_x_i)
-    # print(x[-1])
-    print(f"e = {eigen_value}")
-    # print(e[-1])
 
     return y_k, eigen_value, e
 
 
-U = lambda x: x ** 2
+U = lambda x: (x ** 2) / 2
 n = 100
 borders = (-4, 4)
 borders0 = (-1000, 1000)
@@ -107,8 +105,7 @@ print("Энергия", solution[1])
 print("Минимальное собственное значения H (с помощью numpy):", min(np.linalg.eigvals(H)))
 
 print("Энергия на промежутке (-1000, 1000)", solution0[1])
-print("Настоящее значение энергии", min(np.linalg.eigvals(H0))) # а тут всё сходится  :)
-
+print("Настоящее значение энергии", min(np.linalg.eigvals(H0)))  # а тут всё сходится  :)
 
 plt.style.use('seaborn-v0_8-whitegrid')
 plt.subplot(1, 2, 1)

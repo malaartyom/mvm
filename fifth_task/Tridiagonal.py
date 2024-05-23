@@ -59,18 +59,18 @@ def create_matrix(func, n: int, l: float, r: float, f_right=0, df_left=0, f_left
     return a, b, c, right_part
 
 
-def tridiagonal_matrix_algorithm(a, b, c, right_part):
+def tridiagonal_matrix_algorithm(low, mid, up, right_part):
+    a, b, c, d = (low.copy(), mid.copy(), up.copy(), right_part.copy())
+
     for i in range(len(a) - 1):
-        b_i, c_i, right_part_i = b[i], c[i], right_part[i]
-        right_part[i + 1] = right_part[i + 1] - (right_part_i / b_i) * a[i + 1]
-        b[i + 1] = b[i + 1] - (a[i + 1] / b_i) * c_i
+        b_i, c_i, d_i = b[i], c[i], d[i]
+        d[i + 1] = d[i + 1] - (d_i / b_i) * a[i + 1]
+        b[i + 1] = b[i + 1] - (c_i / b_i) * a[i + 1]
 
-    b[-1] = right_part[-1] / b[- 1]
+    b[len(a) - 1] = d[len(a) - 1] / b[len(a) - 1]
 
-    for i in range(len(b) - 2, -1, -1):
-        b[i] = (right_part[i] - c[i] * b[i + 1]) / b[i]
-
-    # print(f"b = {b}")
+    for i in range(len(a) - 2, -1, -1):
+        b[i] = (d[i] - c[i] * b[i + 1]) / b[i]
 
     return b
 
